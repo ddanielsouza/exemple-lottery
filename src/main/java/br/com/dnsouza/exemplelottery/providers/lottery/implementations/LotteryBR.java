@@ -1,18 +1,15 @@
 package br.com.dnsouza.exemplelottery.providers.lottery.implementations;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -22,14 +19,12 @@ import br.com.dnsouza.exemplelottery.application.exceptions.AppException;
 import br.com.dnsouza.exemplelottery.providers.lottery.ILotteryProvider;
 import br.com.dnsouza.exemplelottery.providers.lottery.dto.LotteryGameDTO;
 import br.com.dnsouza.exemplelottery.util.RegexUtil;
+import br.com.dnsouza.exemplelottery.util.RestUitls;
 
 @Component
 public class LotteryBR implements ILotteryProvider {
   private final String urlBase = "http://loterias.caixa.gov.br";
   private static final String MSG_NUMBERS_NOT_FOUND = "Não foi possivel consultar os numeros da mega-sena";
-  
-  @Autowired
-  private RestTemplate restTemplate;
   
   @Override
   public LotteryGameDTO lastDraw() {
@@ -38,13 +33,13 @@ public class LotteryBR implements ILotteryProvider {
     final String regexDate = "class=\"logo-mega-sena\">.*?(?<date>\\d{2}\\/\\d{2}\\/\\d{4})";
     final LotteryGameDTO game = new LotteryGameDTO();
     
-    ResponseEntity<String> response = this.restTemplate.getForEntity(uri, String.class);
+    ParameterizedTypeReference<String> responseType = 
+        new ParameterizedTypeReference<String>() {};
     
-    if(response.getStatusCode() != HttpStatus.OK) {
-      throw new AppException(MSG_NUMBERS_NOT_FOUND);
-    }
+    final String response = RestUitls.request(new  HashMap<>(), 
+      HttpMethod.GET, uri, responseType, "text/html;charset=UTF-8");
     
-    final String pageHTML = response.getBody().replaceAll("(\\n|\\r|\\t)*", "");
+    final String pageHTML = response.replaceAll("(\\n|\\r|\\t)*", "");
     
     final String contentNumbers = RegexUtil.findOne(pageHTML, regexNumber);
    
