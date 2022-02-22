@@ -12,11 +12,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.dnsouza.exemplelottery.application.exceptions.AppException;
 import br.com.dnsouza.exemplelottery.dto.game.MatchResultLotteryDTO;
-import br.com.dnsouza.exemplelottery.factory.PostalCodeFactory;
 import br.com.dnsouza.exemplelottery.providers.lottery.ILotteryProvider;
 import br.com.dnsouza.exemplelottery.providers.lottery.dto.LotteryGameDTO;
 import br.com.dnsouza.exemplelottery.providers.messages.IMessagesProvider;
-import br.com.dnsouza.exemplelottery.providers.postalcode.IPostalCodeProvider;
 
 @Service
 public class GameService {
@@ -29,11 +27,6 @@ public class GameService {
   
   @Autowired
   private ILotteryProvider lotteryProvider;
-  
-  public void teste() {
-    final IPostalCodeProvider postalcode = PostalCodeFactory.getPostalCode("BR");
-    postalcode.searchCity( );
-  }
   
   public MatchResultLotteryDTO checkMatch(String strNumbersBet) {
     
