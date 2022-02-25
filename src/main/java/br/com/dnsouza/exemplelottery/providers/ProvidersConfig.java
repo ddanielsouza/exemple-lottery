@@ -38,20 +38,20 @@ public class ProvidersConfig {
     }
   }
   
-  @Bean
-  @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-  public ILotteryProvider lotteryProvider() {
-    final ECountryAbbreviations country = ECountryAbbreviations
-        .fromString(request.getLocale().getCountry());
-    
-    switch (country) {
-      case BRAZIL:
-        return new LotteryBR();
-      case UNITED_STATES:
-        return new LotteryUS();
-      default:
-        return new LotteryUS();
-    }
-  }
+//  @Bean
+//  @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+//  public ILotteryProvider lotteryProvider() {
+//    final ECountryAbbreviations country = ECountryAbbreviations
+//        .fromString(request.getLocale().getCountry());
+//    
+//    switch (country) {
+//      case BRAZIL:
+//        return new LotteryBR();
+//      case UNITED_STATES:
+//        return new LotteryUS();
+//      default:
+//        return new LotteryUS();
+//    }
+//  }
   
 }

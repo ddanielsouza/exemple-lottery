@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.dnsouza.exemplelottery.dto.game.MatchResultLotteryDTO;
 import br.com.dnsouza.exemplelottery.service.GameService;
+import br.com.dnsouza.exemplelottery.util.ECountryAbbreviations;
 
 @RestController
 @RequestMapping("games")
@@ -23,8 +24,10 @@ public class GameController {
    * @throws Exception 
    */
   @RequestMapping(value = "check")
-  public ResponseEntity<MatchResultLotteryDTO> checkMatch(@RequestParam("numbersBet") String numbersBet){
-    final MatchResultLotteryDTO response = this.gameService.checkMatch(numbersBet);
+  public ResponseEntity<MatchResultLotteryDTO> checkMatch(
+      @RequestParam("numbersBet") String numbersBet,
+      @RequestParam(value = "country", defaultValue = "BR") String country){
+    final MatchResultLotteryDTO response = this.gameService.checkMatch(numbersBet, country);
     return new ResponseEntity<>(response, HttpStatus.OK); 
   }
 }

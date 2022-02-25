@@ -4,8 +4,10 @@ Projeto de exemplo para os estagiários, com objetivo de demonstrar o funcioname
 
 ## Exemplo de requisição <br>
 ```sh
-curl --location --request POST 'http://localhost:8080/games/check?numbersBet=21 38 50 53 56 59' \
+curl --location --request POST 'http://localhost:8080/games/check?numbersBet=21 38 50 53 56 59&contry=US' \
 --data-raw ''
 ```
 
-Obs: Para testar o Powerball use a header 'Accept-Language: en-US' assim não precisar de alguma VPN para simular o acesso nos EUA 
+### Paramentros:
+contry: (US ou BR) <br>
+numbersBet: Exemplo (01 02 03 04 05 06)

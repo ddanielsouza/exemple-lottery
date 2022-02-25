@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import br.com.dnsouza.exemplelottery.application.exceptions.AppException;
 import br.com.dnsouza.exemplelottery.dto.game.MatchResultLotteryDTO;
+import br.com.dnsouza.exemplelottery.factory.LotteryFactory;
 import br.com.dnsouza.exemplelottery.providers.lottery.ILotteryProvider;
 import br.com.dnsouza.exemplelottery.providers.lottery.dto.LotteryGameDTO;
 import br.com.dnsouza.exemplelottery.providers.messages.IMessagesProvider;
+import br.com.dnsouza.exemplelottery.util.ECountryAbbreviations;
 
 @Service
 public class GameService {
@@ -25,10 +27,8 @@ public class GameService {
   @Autowired
   private IMessagesProvider messages;
   
-  @Autowired
-  private ILotteryProvider lotteryProvider;
-  
-  public MatchResultLotteryDTO checkMatch(String strNumbersBet) {
+  public MatchResultLotteryDTO checkMatch(String strNumbersBet, String country) {
+    ILotteryProvider lotteryProvider = LotteryFactory.getInstance(country);
     
     if(strNumbersBet == null) {
       throw new AppException( String.format(this.messages.isNotNull(), "numbersBet") );
